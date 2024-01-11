@@ -10,7 +10,7 @@ export class UserService {
 
   async register(createUserDto: CreateUserDto) {
 
-    const checkDuplicate = await this.findDuplicateEmail(createUserDto.email);
+    const checkDuplicate = await this.findByEmail(createUserDto.email);
     if (checkDuplicate) {
       throw new ConflictException('email duplicate');
     }
@@ -48,7 +48,7 @@ export class UserService {
     throw new NotFoundException('Data user tidak ditemukan')
   }
 
-  async findDuplicateEmail(email: string) {
+  async findByEmail(email: string) {
     const user = await this.prisma.user.findUnique({
       where: {
         email,
